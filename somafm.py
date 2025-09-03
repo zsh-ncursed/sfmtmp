@@ -554,12 +554,28 @@ class SomaFMPlayer:
         
         # Update scroll offset
         max_y, max_x = stdscr.getmaxyx()
-        visible_channels = max_y - 3
+        panel_height = max_y - 2  # Leave space for 2 lines of instructions
+        visible_channels = panel_height - 3  # Leave space for header and spacing
+        
+        # Ensure we don't scroll beyond the available channels
+        max_scroll = max(0, len(self.channels) - visible_channels)
         
         if self.current_index < self.scroll_offset:
             self.scroll_offset = self.current_index
         elif self.current_index >= self.scroll_offset + visible_channels:
-            self.scroll_offset = self.current_index - visible_channels + 1
+            self.scroll_offset = min(max_scroll, self.current_index - visible_channels + 1)
+        
+        # Ensure scroll_offset is within bounds
+        self.scroll_offset = max(0, min(max_scroll, self.scroll_offset))
+        
+        # Final check: ensure current selection is visible
+        if self.current_index < self.scroll_offset:
+            self.scroll_offset = self.current_index
+        elif self.current_index >= self.scroll_offset + visible_channels:
+            self.scroll_offset = max(0, min(max_scroll, self.current_index - visible_channels + 1))
+        
+        # Debug logging
+        logging.debug(f"Navigation: current_index={self.current_index}, scroll_offset={self.scroll_offset}, visible_channels={visible_channels}, max_scroll={max_scroll}, total_channels={len(self.channels)}")
         
         self.combined_screen.display(
             stdscr, 
