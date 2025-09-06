@@ -245,8 +245,10 @@ class CombinedScreen:
         
         # Volume level
         y_vol = start_y + 4
+        logging.debug(f"Playback panel dimensions: available_width={available_width}, max_y={max_y}, y_vol={y_vol}")
         if available_width > 12 and y_vol < max_y: # Ensure space for bar
             try:
+                logging.debug("Drawing volume bar.")
                 bar_width = available_width - 12  # "Volume: [] " + "%"
                 filled_len = int(bar_width * volume / 100)
                 bar = '█' * filled_len + '─' * (bar_width - filled_len)
@@ -339,7 +341,7 @@ class SomaFMPlayer:
         self.is_paused = False
         self.scroll_offset = 0
         self.volume = 75
-        self.player.volume = self.volume
+        self.player.command('set_property', 'volume', self.volume)
         self.current_metadata = {
             'artist': 'Loading...',
             'title': 'Loading...',
@@ -732,16 +734,18 @@ class SomaFMPlayer:
                     # Get user input
                     try:
                         key = stdscr.get_wch()
-                        logging.debug(f"Pressed key: {key} (type: {type(key)})")
+                        logging.debug(f"Pressed key: {repr(key)} (type: {type(key)})")
 
-                        if isinstance(key, str):
-                            if key in ['+', '=']:
-                                self.volume = min(100, self.volume + 5)
-                                self.player.volume = self.volume
-                            elif key == '-':
-                                self.volume = max(0, self.volume - 5)
-                                self.player.volume = self.volume
-                            elif key in ['q', 'й', 'Q', 'Й', chr(27)]:  # 27 is ESC
+                        if key == '+' or key == '=':
+                            self.volume = min(100, self.volume + 5)
+                            self.player.command('set_property', 'volume', self.volume)
+                            logging.debug(f"Volume increased to {self.volume}")
+                        elif key == '-':
+                            self.volume = max(0, self.volume - 5)
+                            self.player.command('set_property', 'volume', self.volume)
+                            logging.debug(f"Volume decreased to {self.volume}")
+                        elif isinstance(key, str):
+                            if key in ['q', 'й', 'Q', 'Й', chr(27)]:  # 27 is ESC
                                 logging.debug(f"Detected quit key")
                                 self.running = False
                             elif key in ['h', 'H']:  # Stop playback
