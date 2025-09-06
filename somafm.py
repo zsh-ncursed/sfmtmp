@@ -99,6 +99,7 @@ class CombinedScreen:
                 "f - favorite",
                 "t - theme",
                 "a - alt bg",
+                "s - settings",
                 "q - quit"
             ]
             
@@ -317,6 +318,49 @@ class CombinedScreen:
         except curses.error:
             pass
 
+class SettingsScreen:
+    def __init__(self):
+        self.options = [
+            "Theme",
+            "Alternative BG Mode",
+            "Buffer Minutes",
+            "Buffer Size (MB)"
+        ]
+
+    def display(self, stdscr, config, selected_index):
+        max_y, max_x = stdscr.getmaxyx()
+        stdscr.clear()
+        stdscr.bkgd(' ', curses.color_pair(1))
+
+        # Title
+        title = "Settings"
+        stdscr.addstr(1, 2, title, curses.A_BOLD | curses.color_pair(1))
+
+        y = 3
+        for i, option in enumerate(self.options):
+            style = curses.color_pair(1)
+            if i == selected_index:
+                style = curses.color_pair(2) | curses.A_REVERSE
+
+            value = ""
+            if option == "Theme":
+                value = config.get('theme', 'default')
+            elif option == "Alternative BG Mode":
+                value = "On" if config.get('alternative_bg_mode', False) else "Off"
+            elif option == "Buffer Minutes":
+                value = str(config.get('buffer_minutes', 5))
+            elif option == "Buffer Size (MB)":
+                value = str(config.get('buffer_size_mb', 50))
+
+            display_string = f"{option.ljust(20)}: {value}"
+            stdscr.addstr(y + i, 4, display_string, style)
+
+        # Instructions
+        instructions = "↑↓ - navigate | ←→ - change | s/q/ESC - close"
+        stdscr.addstr(max_y - 2, 2, instructions, curses.color_pair(5) | curses.A_DIM)
+
+        stdscr.refresh()
+
 class SomaFMPlayer:
     def __init__(self):
         self.had_error = False
@@ -351,9 +395,14 @@ class SomaFMPlayer:
         }
         self.running = True
         self.combined_screen = CombinedScreen()
+        self.settings_screen = SettingsScreen()
         self.stdscr = None  # Store stdscr for updates
         self.alternative_bg_mode = self.config.get('alternative_bg_mode', False)  # Alternative background mode (pure black instead of dark gray)
         
+        # Screen states
+        self.is_on_settings_screen = False
+        self.selected_setting_index = 0
+
         # Search state
         self.is_searching = False
         self.search_query = ""
@@ -818,14 +867,51 @@ class SomaFMPlayer:
                 
                 # Main loop
                 while self.running:
-                    self._display_combined_interface(stdscr)
+                    if self.is_on_settings_screen:
+                        self.settings_screen.display(stdscr, self.config, self.selected_setting_index)
+                    else:
+                        self._display_combined_interface(stdscr)
                     
                     # Get user input
                     try:
                         key = stdscr.get_wch()
                         logging.debug(f"Pressed key: {key} (type: {type(key)})")
 
-                        if self.is_searching:
+                        if self.is_on_settings_screen:
+                            num_options = len(self.settings_screen.options)
+                            if key in [curses.KEY_UP, 'k']:
+                                self.selected_setting_index = (self.selected_setting_index - 1) % num_options
+                            elif key in [curses.KEY_DOWN, 'j']:
+                                self.selected_setting_index = (self.selected_setting_index + 1) % num_options
+                            elif key in [curses.KEY_RIGHT, 'l', curses.KEY_LEFT, 'h']:
+                                selected_option = self.settings_screen.options[self.selected_setting_index]
+                                # Change Theme
+                                if selected_option == "Theme":
+                                    themes = list(self._get_color_themes().keys())
+                                    current_theme_index = themes.index(self.config.get('theme', 'default'))
+                                    direction = 1 if key in [curses.KEY_RIGHT, 'l'] else -1
+                                    next_index = (current_theme_index + direction) % len(themes)
+                                    self.config['theme'] = themes[next_index]
+                                    self._init_colors()
+                                # Toggle BG Mode
+                                elif selected_option == "Alternative BG Mode":
+                                    self.config['alternative_bg_mode'] = not self.config.get('alternative_bg_mode', False)
+                                    self._init_colors()
+                                # Change Buffer sizes
+                                elif selected_option == "Buffer Minutes":
+                                    direction = 1 if key in [curses.KEY_RIGHT, 'l'] else -1
+                                    current = self.config.get('buffer_minutes', 5)
+                                    self.config['buffer_minutes'] = max(1, current + direction)
+                                elif selected_option == "Buffer Size (MB)":
+                                    direction = 5 if key in [curses.KEY_RIGHT, 'l'] else -5
+                                    current = self.config.get('buffer_size_mb', 50)
+                                    self.config['buffer_size_mb'] = max(5, current + direction)
+
+                                self._save_config()
+
+                            elif key in ['s', 'q', chr(27)]:
+                                self.is_on_settings_screen = False
+                        elif self.is_searching:
                             if key == chr(27):  # ESC
                                 self.is_searching = False
                                 self.search_query = ""
@@ -859,6 +945,8 @@ class SomaFMPlayer:
                                     self.is_searching = True
                                     self.search_query = ""
                                     self.current_index = 0
+                                elif key == 's':
+                                    self.is_on_settings_screen = True
                                 elif key in ['q', 'й', 'Q', 'Й', chr(27)]:
                                     self.running = False
                                 elif key in ['h', 'H']:  # Stop playback
