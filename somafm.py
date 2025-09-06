@@ -634,6 +634,7 @@ class SomaFMPlayer:
             self.buffer.start_buffering()
             
             # Start playback
+            self.player.pause = False
             self.player.play(stream_url)
             self.current_channel = channel
             self.is_playing = True
