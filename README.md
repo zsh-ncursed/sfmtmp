@@ -13,7 +13,7 @@ A console-based player for SomaFM internet radio with stream buffering support.
 ## Features
 
 - **Unified Interface**: Combined channel list and playback in split-screen layout
-- **Multiple Color Themes**: 6 built-in themes with alternative background mode
+- **Multiple Color Themes**: 20 built-in themes (5 light, 15 dark) with alternative background mode
 - **Automatic Channel Retrieval**: Fetches latest SomaFM channel list
 - **Intuitive Navigation**: Vim-style keys (hjkl) and arrow key support
 - **Stream Buffering**: Stable playback with configurable buffering
@@ -103,14 +103,13 @@ alternative_bg_mode: false
 
 ### Available Themes
 
-The application supports multiple color themes that can be switched using the `t` key:
+The application supports 20 color themes that can be switched using the `t` key:
 
-- **default** - Default Dark theme with cyan/green colors
-- **light** - Light theme with dark text on white background
-- **matrix** - Matrix-style green-on-black theme
-- **ocean** - Ocean blue theme with cyan accents
-- **sunset** - Warm orange/red sunset theme
-- **monochrome** - Simple black and white theme
+**Light Themes (5):**
+- `light`, `solarized-light`, `paper`, `light-plus`, `github-light`
+
+**Dark Themes (15):**
+- `default`, `darcula`, `monokai`, `matrix`, `ocean`, `sunset`, `monochrome`, `nord`, `gruvbox`, `dracula`, `cobalt`, `onedark`, `night-owl`, `ayu`, `tokyo-night`
 
 ### Alternative Background Mode
 
@@ -189,7 +188,7 @@ Current version: 0.2.4
 - **Enhanced Notifications**: Theme notifications now show current background mode status
 
 #### Version 0.2.3
-- **Color Themes**: Added 6 built-in color themes (default, light, matrix, ocean, sunset, monochrome)
+- **Color Themes**: Expanded from 6 to 20 built-in color schemes (5 light, 15 dark).
 - **Theme Switching**: Press 't' key to cycle through available themes
 - **Theme Persistence**: Selected theme is saved in configuration file
 - **Terminal Compatibility**: Themes designed to work well across different terminal emulators
