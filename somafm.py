@@ -246,14 +246,23 @@ class CombinedScreen:
         # Volume level
         y_vol = start_y + 4
         logging.debug(f"Playback panel dimensions: available_width={available_width}, max_y={max_y}, y_vol={y_vol}")
-        if available_width > 12 and y_vol < max_y: # Ensure space for bar
+        if y_vol < max_y:
             try:
-                logging.debug("Drawing volume bar.")
-                bar_width = available_width - 12  # "Volume: [] " + "%"
-                filled_len = int(bar_width * volume / 100)
-                bar = '█' * filled_len + '─' * (bar_width - filled_len)
-                volume_text = f"Volume: [{bar}] {volume}%"
-                stdscr.addstr(y_vol, start_x, volume_text[:available_width-1], curses.color_pair(3))
+                volume_text = ""
+                # Full volume bar if space allows
+                if available_width > 12:
+                    logging.debug("Drawing full volume bar.")
+                    bar_width = available_width - 12  # "Volume: [] " + "%"
+                    filled_len = int(bar_width * volume / 100)
+                    bar = '█' * filled_len + '─' * (bar_width - filled_len)
+                    volume_text = f"Volume: [{bar}] {volume}%"
+                # Text-only fallback for smaller widths
+                elif available_width >= 8:
+                    logging.debug("Drawing text-only volume.")
+                    volume_text = f"Volume: {volume}%"
+
+                if volume_text:
+                    stdscr.addstr(y_vol, start_x, volume_text[:available_width-1], curses.color_pair(3))
             except curses.error:
                 pass
 
@@ -740,10 +749,12 @@ class SomaFMPlayer:
                             self.volume = min(100, self.volume + 5)
                             self.player.command('set_property', 'volume', self.volume)
                             logging.debug(f"Volume increased to {self.volume}")
+                            self.combined_screen.show_notification(stdscr, f"Volume: {self.volume}%", timeout=0.5)
                         elif key == '-':
                             self.volume = max(0, self.volume - 5)
                             self.player.command('set_property', 'volume', self.volume)
                             logging.debug(f"Volume decreased to {self.volume}")
+                            self.combined_screen.show_notification(stdscr, f"Volume: {self.volume}%", timeout=0.5)
                         elif isinstance(key, str):
                             if key in ['q', 'й', 'Q', 'Й', chr(27)]:  # 27 is ESC
                                 logging.debug(f"Detected quit key")
