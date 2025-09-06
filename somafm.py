@@ -402,66 +402,129 @@ class SomaFMPlayer:
 
     def _get_color_themes(self):
         """Define available color themes"""
+        # 5 light themes, 15 dark themes
         return {
-            'default': {
-                'name': 'Default Dark',
-                'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_CYAN,
-                'selected': curses.COLOR_GREEN,
-                'info': curses.COLOR_YELLOW,
-                'metadata': curses.COLOR_MAGENTA,
-                'instructions': curses.COLOR_BLUE,
+            # Light Themes
+            'light': {
+                'name': 'Light',
+                'bg_color': curses.COLOR_WHITE, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_BLACK,
+                'info': curses.COLOR_BLACK, 'metadata': curses.COLOR_MAGENTA, 'instructions': curses.COLOR_BLUE,
                 'favorite': curses.COLOR_RED
             },
-            'light': {
-                'name': 'Light Theme',
-                'bg_color': curses.COLOR_WHITE,
-                'header': curses.COLOR_BLUE,
-                'selected': curses.COLOR_BLACK,
-                'info': curses.COLOR_RED,
-                'metadata': curses.COLOR_MAGENTA,
-                'instructions': curses.COLOR_CYAN,
+            'solarized-light': {
+                'name': 'Solarized Light',
+                'bg_color': curses.COLOR_WHITE, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_BLACK,
+                'info': curses.COLOR_BLACK, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_CYAN,
+                'favorite': curses.COLOR_RED
+            },
+            'paper': {
+                'name': 'Paper',
+                'bg_color': curses.COLOR_WHITE, 'header': curses.COLOR_BLACK, 'selected': curses.COLOR_BLUE,
+                'info': curses.COLOR_BLACK, 'metadata': curses.COLOR_BLUE, 'instructions': curses.COLOR_BLACK,
+                'favorite': curses.COLOR_RED
+            },
+            'light-plus': {
+                'name': 'Light Plus',
+                'bg_color': curses.COLOR_WHITE, 'header': curses.COLOR_MAGENTA, 'selected': curses.COLOR_BLACK,
+                'info': curses.COLOR_BLACK, 'metadata': curses.COLOR_BLUE, 'instructions': curses.COLOR_BLACK,
+                'favorite': curses.COLOR_RED
+            },
+            'github-light': {
+                'name': 'GitHub Light',
+                'bg_color': curses.COLOR_WHITE, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_BLACK,
+                'info': curses.COLOR_BLACK, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            # Dark Themes
+            'default': {
+                'name': 'Default Dark',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_CYAN, 'selected': curses.COLOR_GREEN,
+                'info': curses.COLOR_YELLOW, 'metadata': curses.COLOR_MAGENTA, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            'darcula': {
+                'name': 'Darcula',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_CYAN, 'selected': curses.COLOR_YELLOW,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            'monokai': {
+                'name': 'Monokai',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_YELLOW, 'selected': curses.COLOR_GREEN,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_CYAN, 'instructions': curses.COLOR_MAGENTA,
                 'favorite': curses.COLOR_RED
             },
             'matrix': {
-                'name': 'Matrix Green',
-                'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_GREEN,
-                'selected': curses.COLOR_WHITE,
-                'info': curses.COLOR_GREEN,
-                'metadata': curses.COLOR_GREEN,
-                'instructions': curses.COLOR_GREEN,
+                'name': 'Matrix',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_GREEN, 'selected': curses.COLOR_WHITE,
+                'info': curses.COLOR_GREEN, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_GREEN,
                 'favorite': curses.COLOR_RED
             },
             'ocean': {
-                'name': 'Ocean Blue',
-                'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_CYAN,
-                'selected': curses.COLOR_WHITE,
-                'info': curses.COLOR_BLUE,
-                'metadata': curses.COLOR_CYAN,
-                'instructions': curses.COLOR_BLUE,
+                'name': 'Ocean',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_CYAN, 'selected': curses.COLOR_WHITE,
+                'info': curses.COLOR_BLUE, 'metadata': curses.COLOR_CYAN, 'instructions': curses.COLOR_BLUE,
                 'favorite': curses.COLOR_YELLOW
             },
             'sunset': {
-                'name': 'Sunset Orange',
-                'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_YELLOW,
-                'selected': curses.COLOR_WHITE,
-                'info': curses.COLOR_RED,
-                'metadata': curses.COLOR_YELLOW,
-                'instructions': curses.COLOR_RED,
+                'name': 'Sunset',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_YELLOW, 'selected': curses.COLOR_WHITE,
+                'info': curses.COLOR_RED, 'metadata': curses.COLOR_YELLOW, 'instructions': curses.COLOR_RED,
                 'favorite': curses.COLOR_RED
             },
             'monochrome': {
                 'name': 'Monochrome',
-                'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_WHITE,
-                'selected': curses.COLOR_BLACK,
-                'info': curses.COLOR_WHITE,
-                'metadata': curses.COLOR_WHITE,
-                'instructions': curses.COLOR_WHITE,
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_WHITE, 'selected': curses.COLOR_BLACK,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_WHITE, 'instructions': curses.COLOR_WHITE,
                 'favorite': curses.COLOR_WHITE
+            },
+            'nord': {
+                'name': 'Nord',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_WHITE,
+                'info': curses.COLOR_CYAN, 'metadata': curses.COLOR_MAGENTA, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_YELLOW
+            },
+            'gruvbox': {
+                'name': 'Gruvbox',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_YELLOW, 'selected': curses.COLOR_GREEN,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_RED, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_YELLOW
+            },
+            'dracula': {
+                'name': 'Dracula',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_MAGENTA, 'selected': curses.COLOR_CYAN,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_YELLOW,
+                'favorite': curses.COLOR_RED
+            },
+            'cobalt': {
+                'name': 'Cobalt',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_YELLOW,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_CYAN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            'onedark': {
+                'name': 'One Dark',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_CYAN, 'selected': curses.COLOR_RED,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_GREEN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_YELLOW
+            },
+            'night-owl': {
+                'name': 'Night Owl',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_MAGENTA, 'selected': curses.COLOR_YELLOW,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_CYAN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            'ayu': {
+                'name': 'Ayu',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_YELLOW, 'selected': curses.COLOR_GREEN,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_CYAN, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
+            },
+            'tokyo-night': {
+                'name': 'Tokyo Night',
+                'bg_color': curses.COLOR_BLACK, 'header': curses.COLOR_BLUE, 'selected': curses.COLOR_CYAN,
+                'info': curses.COLOR_WHITE, 'metadata': curses.COLOR_MAGENTA, 'instructions': curses.COLOR_BLUE,
+                'favorite': curses.COLOR_RED
             }
         }
 
@@ -494,18 +557,20 @@ class SomaFMPlayer:
         curses.init_pair(6, theme['favorite'], bg_color)    # Favorite icon
         
         # For light themes, reverse the selected item colors
-        if theme_name == 'light':
+        if theme_name in ['light', 'solarized-light', 'paper', 'light-plus', 'github-light']:
             curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)  # Selected channel
         elif theme_name == 'monochrome':
             curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)  # Selected channel
 
     def _init_config(self):
         """Initialize configuration file if it doesn't exist"""
+        themes = self._get_color_themes()
+        theme_names = ", ".join(themes.keys())
         default_config = {
             "# Configuration file for SomaFM TUI Player": "",
             "# buffer_minutes: Duration of audio buffering in minutes": "",
             "# buffer_size_mb: Maximum size of buffer in megabytes": "",
-            "# theme: Color theme (default, light, matrix, ocean, sunset, monochrome)": "",
+            f"# theme: Color theme ({theme_names})": "",
             "# alternative_bg_mode: Use pure black background instead of dark gray (true/false)": "",
             "buffer_minutes": 5,
             "buffer_size_mb": 50,
@@ -626,8 +691,8 @@ class SomaFMPlayer:
             self.current_channel,
             self.player,
             self.is_playing,
-            self.is_searching,
-            self.search_query
+            is_searching=self.is_searching,
+            search_query=self.search_query
         )
 
     def _play_channel(self, channel: Dict):
