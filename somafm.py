@@ -45,7 +45,7 @@ class CombinedScreen:
         self.current_channel = None
         self.player = None
 
-    def display(self, stdscr, channels, selected_index, scroll_offset, channel_favorites, current_channel=None, player=None, is_playing=False, volume=75):
+    def display(self, stdscr, channels, selected_index, scroll_offset, channel_favorites, current_channel=None, player=None, is_playing=False):
         """Display combined interface with channels on left and playback on right"""
         max_y, max_x = stdscr.getmaxyx()
         
@@ -84,7 +84,7 @@ class CombinedScreen:
         
         # RIGHT PANEL: Playback info
         self._display_playback_panel(stdscr, split_x + 1, 0, max_x - split_x - 1, panel_height, 
-                                   current_channel, player, is_playing, volume)
+                                   current_channel, player, is_playing)
         
         # Display adaptive instructions at bottom (stack when needed)
         try:
@@ -93,7 +93,6 @@ class CombinedScreen:
                 "↑↓/jk - select",
                 "Enter/l - play",
                 "Space - pause",
-                "+/- - volume",
                 "h - stop",
                 "f - favorite",
                 "t - theme",
@@ -186,7 +185,7 @@ class CombinedScreen:
                 continue
 
     def _display_playback_panel(self, stdscr, start_x, start_y, width, height, 
-                              current_channel, player, is_playing, volume=75):
+                              current_channel, player, is_playing):
         """Display playback info in right panel"""
         # Get actual screen dimensions to respect boundaries
         max_y, max_x = stdscr.getmaxyx()
@@ -243,31 +242,8 @@ class CombinedScreen:
             except curses.error:
                 pass
         
-        # Volume level
-        y_vol = start_y + 4
-        logging.debug(f"Playback panel dimensions: available_width={available_width}, max_y={max_y}, y_vol={y_vol}")
-        if y_vol < max_y:
-            try:
-                volume_text = ""
-                # Full volume bar if space allows
-                if available_width > 12:
-                    logging.debug("Drawing full volume bar.")
-                    bar_width = available_width - 12  # "Volume: [] " + "%"
-                    filled_len = int(bar_width * volume / 100)
-                    bar = '█' * filled_len + '─' * (bar_width - filled_len)
-                    volume_text = f"Volume: [{bar}] {volume}%"
-                # Text-only fallback for smaller widths
-                elif available_width >= 8:
-                    logging.debug("Drawing text-only volume.")
-                    volume_text = f"Volume: {volume}%"
-
-                if volume_text:
-                    stdscr.addstr(y_vol, start_x, volume_text[:available_width-1], curses.color_pair(3))
-            except curses.error:
-                pass
-
         # Track history
-        y = start_y + 6 # Shifted down to make space for volume
+        y = start_y + 5
         for track in self.track_history:
             if y >= height - 2 or y >= max_y:
                 break
@@ -349,8 +325,6 @@ class SomaFMPlayer:
         self.is_playing = False
         self.is_paused = False
         self.scroll_offset = 0
-        self.volume = 75
-        self.player.command('set_property', 'volume', self.volume)
         self.current_metadata = {
             'artist': 'Loading...',
             'title': 'Loading...',
@@ -611,8 +585,7 @@ class SomaFMPlayer:
             channel_favorites,
             self.current_channel,
             self.player,
-            self.is_playing,
-            self.volume
+            self.is_playing
         )
 
     def _play_channel(self, channel: Dict):
@@ -743,19 +716,9 @@ class SomaFMPlayer:
                     # Get user input
                     try:
                         key = stdscr.get_wch()
-                        logging.debug(f"Pressed key: {repr(key)} (type: {type(key)})")
+                        logging.debug(f"Pressed key: {key} (type: {type(key)})")
 
-                        if key == '+' or key == '=':
-                            self.volume = min(100, self.volume + 5)
-                            self.player.command('set_property', 'volume', self.volume)
-                            logging.debug(f"Volume increased to {self.volume}")
-                            self.combined_screen.show_notification(stdscr, f"Volume: {self.volume}%", timeout=0.5)
-                        elif key == '-':
-                            self.volume = max(0, self.volume - 5)
-                            self.player.command('set_property', 'volume', self.volume)
-                            logging.debug(f"Volume decreased to {self.volume}")
-                            self.combined_screen.show_notification(stdscr, f"Volume: {self.volume}%", timeout=0.5)
-                        elif isinstance(key, str):
+                        if isinstance(key, str):
                             if key in ['q', 'й', 'Q', 'Й', chr(27)]:  # 27 is ESC
                                 logging.debug(f"Detected quit key")
                                 self.running = False
