@@ -13,7 +13,7 @@ A console-based player for SomaFM internet radio with stream buffering support.
 ## Features
 
 - **Unified Interface**: Combined channel list and playback in split-screen layout
-- **Multiple Color Themes**: 20 built-in themes with alternative background mode
+- **Multiple Color Themes**: 6 built-in themes with alternative background mode
 - **Automatic Channel Retrieval**: Fetches latest SomaFM channel list
 - **Intuitive Navigation**: Vim-style keys (hjkl) and arrow key support
 - **Stream Buffering**: Stable playback with configurable buffering
@@ -103,31 +103,14 @@ alternative_bg_mode: false
 
 ### Available Themes
 
-The application supports 20 color themes that can be switched using the `t` key.
+The application supports multiple color themes that can be switched using the `t` key:
 
-#### Light Themes (5)
-- **light**: Standard light theme.
-- **solarized-light**: A light version of the popular Solarized theme.
-- **gruvbox-light**: A light, retro-groove theme.
-- **paper**: A theme inspired by Google's Material Design.
-- **classic-light**: A high-contrast classic light theme.
-
-#### Dark Themes (15)
-- **default**: The default dark theme with cyan and green accents.
-- **matrix**: Classic green-on-black "hacker" theme.
-- **ocean**: A deep blue and cyan theme.
-- **sunset**: A warm, orange and red theme.
-- **monochrome**: A simple black and white theme.
-- **darcula**: Based on the popular JetBrains IDE theme.
-- **monokai**: Based on the classic Sublime Text theme.
-- **solarized-dark**: A dark version of the popular Solarized theme.
-- **nord**: An arctic, north-bluish color palette.
-- **gruvbox-dark**: A dark, retro-groove theme.
-- **dracula**: A popular dark theme with purple and cyan.
-- **tokyo-night**: A dark theme inspired by the night view of Tokyo.
-- **cyberpunk**: A neon-heavy, futuristic theme.
-- **vampire**: A dark, elegant theme with reds and purples.
-- **forest**: A theme with earthy, green tones.
+- **default** - Default Dark theme with cyan/green colors
+- **light** - Light theme with dark text on white background
+- **matrix** - Matrix-style green-on-black theme
+- **ocean** - Ocean blue theme with cyan accents
+- **sunset** - Warm orange/red sunset theme
+- **monochrome** - Simple black and white theme
 
 ### Alternative Background Mode
 
@@ -206,7 +189,7 @@ Current version: 0.2.4
 - **Enhanced Notifications**: Theme notifications now show current background mode status
 
 #### Version 0.2.3
-- **Color Themes**: Expanded color themes from 6 to 20, with 5 light and 15 dark options
+- **Color Themes**: Added 6 built-in color themes (default, light, matrix, ocean, sunset, monochrome)
 - **Theme Switching**: Press 't' key to cycle through available themes
 - **Theme Persistence**: Selected theme is saved in configuration file
 - **Terminal Compatibility**: Themes designed to work well across different terminal emulators
