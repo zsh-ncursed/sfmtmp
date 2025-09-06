@@ -393,10 +393,10 @@ class SomaFMPlayer:
             'solarized-light': {
                 'name': 'Solarized Light',
                 'bg_color': curses.COLOR_WHITE,
-                'header': curses.COLOR_BLUE,
+                'header': curses.COLOR_GREEN,
                 'selected': curses.COLOR_BLACK,
-                'info': curses.COLOR_CYAN,
-                'metadata': curses.COLOR_GREEN,
+                'info': curses.COLOR_BLUE,
+                'metadata': curses.COLOR_CYAN,
                 'instructions': curses.COLOR_MAGENTA,
                 'favorite': curses.COLOR_RED
             },
@@ -408,26 +408,26 @@ class SomaFMPlayer:
                 'info': curses.COLOR_GREEN,
                 'metadata': curses.COLOR_BLUE,
                 'instructions': curses.COLOR_YELLOW,
-                'favorite': curses.COLOR_RED
+                'favorite': curses.COLOR_MAGENTA
             },
-            'paper-color': {
-                'name': 'PaperColor',
+            'paper': {
+                'name': 'Paper',
                 'bg_color': curses.COLOR_WHITE,
-                'header': curses.COLOR_BLUE,
-                'selected': curses.COLOR_BLACK,
+                'header': curses.COLOR_BLACK,
+                'selected': curses.COLOR_BLUE,
                 'info': curses.COLOR_RED,
                 'metadata': curses.COLOR_GREEN,
                 'instructions': curses.COLOR_MAGENTA,
-                'favorite': curses.COLOR_RED
+                'favorite': curses.COLOR_YELLOW
             },
             'classic-light': {
                 'name': 'Classic Light',
                 'bg_color': curses.COLOR_WHITE,
                 'header': curses.COLOR_BLACK,
-                'selected': curses.COLOR_BLUE,
+                'selected': curses.COLOR_RED,
                 'info': curses.COLOR_BLACK,
-                'metadata': curses.COLOR_BLACK,
-                'instructions': curses.COLOR_BLUE,
+                'metadata': curses.COLOR_BLUE,
+                'instructions': curses.COLOR_GREEN,
                 'favorite': curses.COLOR_RED
             },
 
@@ -470,7 +470,7 @@ class SomaFMPlayer:
                 'info': curses.COLOR_RED,
                 'metadata': curses.COLOR_YELLOW,
                 'instructions': curses.COLOR_RED,
-                'favorite': curses.COLOR_RED
+                'favorite': curses.COLOR_CYAN
             },
             'monochrome': {
                 'name': 'Monochrome',
@@ -485,11 +485,11 @@ class SomaFMPlayer:
             'darcula': {
                 'name': 'Darcula',
                 'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_CYAN,
+                'header': curses.COLOR_MAGENTA,
                 'selected': curses.COLOR_YELLOW,
-                'info': curses.COLOR_BLUE,
+                'info': curses.COLOR_CYAN,
                 'metadata': curses.COLOR_GREEN,
-                'instructions': curses.COLOR_MAGENTA,
+                'instructions': curses.COLOR_WHITE,
                 'favorite': curses.COLOR_RED
             },
             'monokai': {
@@ -497,9 +497,9 @@ class SomaFMPlayer:
                 'bg_color': curses.COLOR_BLACK,
                 'header': curses.COLOR_MAGENTA,
                 'selected': curses.COLOR_GREEN,
-                'info': curses.COLOR_CYAN,
+                'info': curses.COLOR_BLUE,
                 'metadata': curses.COLOR_YELLOW,
-                'instructions': curses.COLOR_BLUE,
+                'instructions': curses.COLOR_CYAN,
                 'favorite': curses.COLOR_RED
             },
             'solarized-dark': {
@@ -519,7 +519,7 @@ class SomaFMPlayer:
                 'selected': curses.COLOR_WHITE,
                 'info': curses.COLOR_BLUE,
                 'metadata': curses.COLOR_CYAN,
-                'instructions': curses.COLOR_BLUE,
+                'instructions': curses.COLOR_WHITE,
                 'favorite': curses.COLOR_MAGENTA
             },
             'gruvbox-dark': {
@@ -530,7 +530,7 @@ class SomaFMPlayer:
                 'info': curses.COLOR_GREEN,
                 'metadata': curses.COLOR_CYAN,
                 'instructions': curses.COLOR_RED,
-                'favorite': curses.COLOR_RED
+                'favorite': curses.COLOR_MAGENTA
             },
             'dracula': {
                 'name': 'Dracula',
@@ -546,18 +546,18 @@ class SomaFMPlayer:
                 'name': 'Tokyo Night',
                 'bg_color': curses.COLOR_BLACK,
                 'header': curses.COLOR_BLUE,
-                'selected': curses.COLOR_CYAN,
+                'selected': curses.COLOR_MAGENTA,
                 'info': curses.COLOR_GREEN,
-                'metadata': curses.COLOR_MAGENTA,
+                'metadata': curses.COLOR_CYAN,
                 'instructions': curses.COLOR_WHITE,
                 'favorite': curses.COLOR_RED
             },
             'cyberpunk': {
                 'name': 'Cyberpunk',
                 'bg_color': curses.COLOR_BLACK,
-                'header': curses.COLOR_MAGENTA,
+                'header': curses.COLOR_YELLOW,
                 'selected': curses.COLOR_CYAN,
-                'info': curses.COLOR_YELLOW,
+                'info': curses.COLOR_MAGENTA,
                 'metadata': curses.COLOR_GREEN,
                 'instructions': curses.COLOR_BLUE,
                 'favorite': curses.COLOR_RED
@@ -566,19 +566,19 @@ class SomaFMPlayer:
                 'name': 'Vampire',
                 'bg_color': curses.COLOR_BLACK,
                 'header': curses.COLOR_RED,
-                'selected': curses.COLOR_WHITE,
-                'info': curses.COLOR_MAGENTA,
+                'selected': curses.COLOR_MAGENTA,
+                'info': curses.COLOR_BLUE,
                 'metadata': curses.COLOR_CYAN,
-                'instructions': curses.COLOR_BLUE,
+                'instructions': curses.COLOR_WHITE,
                 'favorite': curses.COLOR_YELLOW
             },
             'forest': {
                 'name': 'Forest',
                 'bg_color': curses.COLOR_BLACK,
                 'header': curses.COLOR_GREEN,
-                'selected': curses.COLOR_WHITE,
-                'info': curses.COLOR_YELLOW,
-                'metadata': curses.COLOR_GREEN,
+                'selected': curses.COLOR_YELLOW,
+                'info': curses.COLOR_CYAN,
+                'metadata': curses.COLOR_WHITE,
                 'instructions': curses.COLOR_BLUE,
                 'favorite': curses.COLOR_RED
             }
@@ -624,7 +624,7 @@ class SomaFMPlayer:
             "# Configuration file for SomaFM TUI Player": "",
             "# buffer_minutes: Duration of audio buffering in minutes": "",
             "# buffer_size_mb: Maximum size of buffer in megabytes": "",
-            "# theme: Color theme (light, solarized-light, gruvbox-light, paper-color, classic-light, default, matrix, ocean, sunset, monochrome, darcula, monokai, solarized-dark, nord, gruvbox-dark, dracula, tokyo-night, cyberpunk, vampire, forest)": "",
+            "# theme: Color theme (light, solarized-light, gruvbox-light, paper, classic-light, default, matrix, ocean, sunset, monochrome, darcula, monokai, solarized-dark, nord, gruvbox-dark, dracula, tokyo-night, cyberpunk, vampire, forest)": "",
             "# alternative_bg_mode: Use pure black background instead of dark gray (true/false)": "",
             "buffer_minutes": 5,
             "buffer_size_mb": 50,
